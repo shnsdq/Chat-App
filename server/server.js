@@ -3,10 +3,13 @@ import 'dotenv/config';
 import cors from "cors"
 import http from "http"
 import { connectDB } from './lib/db.js';
-import userRouter from './routes/userRoutes.js';
-import messageRouter from './routes/messageRoutes.js';
+import userRouter from './routes/user.routes.js';
+import messageRouter from './routes/message.routes.js';
+import authRouter from './routes/auth.routes.js'
 import { Server } from 'socket.io';
+import cookieParser from 'cookie-parser';
 
+dotenv.config();
 
 //create express app & http server
 const app = express();
@@ -38,13 +41,16 @@ io.on("connection", (socket)=>{
 })
 
 //middleware setup
-app.use(express.json({limit:"4mb"}));
+app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
 //Routes setup
 app.use("/api/status", (req,res)=>res.send("Server is running"));
-app.use("/api/auth", userRouter);
+
+app.use("/api/auth", authRouter);
 app.use("/api/messages", messageRouter);
+app.use("/api/user", userRouter);
 
 //connect to MongoDB
 await connectDB();

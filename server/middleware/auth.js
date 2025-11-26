@@ -1,12 +1,20 @@
-import User from "../models/User.js"
+import User from "../models/user.model.js"
 import jwt from "jsonwebtoken"
 
 //Middleware to protect route
 export const protectRoute = async (req,res,next) => {
     try {
-        const token = req.headers.token
+        const token = req.cookies.jwt;
+
+        if(!token){
+            return res.status(401).json({error:"Unauthorised - No token Provided"})
+        }
 
         const decoded = jwt.verify(token,process.env.JWT_SECRET)
+
+         if(!decoded){
+            return res.status(401).json({error:"Unauthorised - Invalid token"})
+        }
 
         const user = await User.findById(decoded.userId).select("-password");
 
@@ -17,6 +25,6 @@ export const protectRoute = async (req,res,next) => {
 
     } catch (error) {
         console.log(error.message)
-        res.json({success:false,message:error.message})
+        res.status(500).json({success:false,message:error.message})
     }
 }
