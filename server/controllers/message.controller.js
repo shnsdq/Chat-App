@@ -1,8 +1,6 @@
-import cloudinary from "../lib/cloudinary.js";
 import Conversation from "../models/conversation.model.js";
-import Message from "../models/Message.js";
-import User from "../models/User.js"
-import {io, userSocketMap} from "../server.js"
+import Message from "../models/message.model.js";
+import { io,userSocketMap } from "../socket/socket.js";
 
 //Get all messages for selected users
 export const getMessages = async (req,res) => {
@@ -55,12 +53,16 @@ export const sendMessage = async (req,res) => {
             conversation.messages.push(newMessage._id);
         }
 
+        //await conversation.save();
+        //await newMessage.save();
+
         //this will run in parallel
         await promise.all([conversation.save(),newMessage.save()]);
 
         //Emit the new message to the receiver's socket
         const receiverSocketId = userSocketMap[receiverId];
         if(receiverSocketId){
+            //io.to(<socket_id>).emit() used to send events to specific client
             io.to(receiverSocketId).emit("newMessage", newMessage)
         }
 
@@ -68,6 +70,6 @@ export const sendMessage = async (req,res) => {
         
     } catch (error) {
          console.log(error.message)
-        res.status(500).json({ essage:error.message})
+        res.status(500).json({ message:error.message})
     }
 }
