@@ -18,11 +18,11 @@ export const getMessages = async (req,res) => {
 
        const messages= conversation.messages;
 
-        res.status(200).json({ messages});
+       return res.status(200).json({ messages});
 
     } catch (error) {
         console.log(error.message)
-        res.json({success:false, message:error.message})
+       return res.json({success:false, message:error.message})
     }
 }
 
@@ -66,10 +66,10 @@ export const sendMessage = async (req,res) => {
             io.to(receiverSocketId).emit("newMessage", newMessage)
         }
 
-        res.json({success:true, newMessage})
+       return res.json({success:true, newMessage})
         
     } catch (error) {
          console.log(error.message)
-        res.status(500).json({ message:error.message})
+       return res.status(500).json({ message:error.message})
     }
 }

@@ -1,11 +1,12 @@
 import GenderCheckbox from "./GenderCheckbox";
 import { Link } from 'react-router-dom';
 import useSignup from '../../hooks/useSignup';
+import { useState } from "react";
 
 const SignUp = () => {
 	const [inputs, setInputs] = useState({
      fullName:'',
-	 userName:'',
+	 username:'',
 	 password:'',
 	 confirmPassword:'',
 	 gender:'',
@@ -41,6 +42,7 @@ const handleCheckboxChange = (gender) =>{
 						</label>
 						<input type='text' placeholder='John Doe' className='w-full input input-bordered  h-10'
 						value={inputs.fullName}
+						name="fullName"
 						onChange={changeEventHandler}
 						/>
 					</div>
@@ -50,7 +52,8 @@ const handleCheckboxChange = (gender) =>{
 							<span className='text-base label-text'>Username</span>
 						</label>
 						<input type='text' placeholder='johndoe' className='w-full input input-bordered h-10' 
-						value={inputs.userName}
+						value={inputs.username}
+						name="username"
 						onChange={changeEventHandler}
 						/>
 					</div>
@@ -64,6 +67,7 @@ const handleCheckboxChange = (gender) =>{
 							placeholder='Enter Password'
 							className='w-full input input-bordered h-10'
 							value={inputs.password}
+							name="password"
 						onChange={changeEventHandler}
 						/>
 					</div>
@@ -76,7 +80,8 @@ const handleCheckboxChange = (gender) =>{
 							type='password'
 							placeholder='Confirm Password'
 							className='w-full input input-bordered h-10'
-							value={inputs.confirmpassword}
+							value={inputs.confirmPassword}
+							name="confirmPassword"
 						onChange={changeEventHandler}
 						/>
 					</div>
