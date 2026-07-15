@@ -17,7 +17,7 @@ const useSignup = () =>{
                 headers: {"Content-Type": "application/json"},
                 body:JSON.stringify({fullName,username,password,confirmPassword,gender})
             })
-
+            
             const data = await res.json();
             if(data.error){
                 throw new Error(data.error)
