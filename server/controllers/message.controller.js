@@ -57,7 +57,7 @@ export const sendMessage = async (req,res) => {
         //await newMessage.save();
 
         //this will run in parallel
-        await promise.all([conversation.save(),newMessage.save()]);
+        await Promise.all([conversation.save(),newMessage.save()]);
 
         //Emit the new message to the receiver's socket
         const receiverSocketId = userSocketMap[receiverId];

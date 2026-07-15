@@ -20,7 +20,7 @@ app.use("/api/status", (req,res)=>res.send("Server is running"));
 
 app.use("/api/auth", authRouter);
 app.use("/api/messages", messageRouter);
-app.use("/api/user", userRouter);
+app.use("/api/users", userRouter);
 
 //connect to MongoDB
 await connectDB();

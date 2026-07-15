@@ -1,3 +1,5 @@
+import User from "../models/user.model.js";
+
 //Get all users except the logged in user
 export const getUsersForSidebar = async (req,res) => {
     try {
@@ -6,6 +8,7 @@ export const getUsersForSidebar = async (req,res) => {
         const filteredUsers = await User.find({_id: {$ne: loggedInUserId}}).select("-password");
 
        return res.json({success:true,filteredUsers})
+
     } catch (error) {
         console.log(error.message)
         return res.json({success:false, message:error.message})

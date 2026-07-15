@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema({
     profilePic:{type: String, default:""},
     //createdAt, updatedAt => Member since <createdAt>
 },
-{timestamp:true});
+{timestamps:true});
 
 const User = mongoose.model("User", userSchema);
 
