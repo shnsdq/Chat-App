@@ -6,7 +6,7 @@ const Conversation = ({ conversation, lastIdx, emoji }) => {
 	const { selectedConversation, setSelectedConversation } = useConversation();
 
 	const isSelected = selectedConversation?._id === conversation._id;
-	const {onlineUsers} = useSocketContext();
+	const { onlineUsers } = useSocketContext();
 	const isOnline = onlineUsers.includes(conversation._id)
 
 	return (
@@ -15,15 +15,24 @@ const Conversation = ({ conversation, lastIdx, emoji }) => {
 				${isSelected ? "bg-sky-500" : ""}
 				`}
 				onClick={() => setSelectedConversation(conversation)}
-				>
-				<div className={`avatar ${isOnline ? "online" : ""}`}>
-					<div className='w-12 rounded-full'>
-						<img
-							src={conversation.profilePic}
-							alt='user avatar'
-						/>
+			>
+				<div className="relative inline-block">
+					{/* The main avatar container */}
+					<div className="avatar">
+						<div className="w-12 rounded-full">
+							<img
+								src={conversation.profilePic}
+								alt="user avatar"
+							/>
+						</div>
 					</div>
+
+					{/* indicator badge */}
+					{isOnline && (
+						<span className="absolute top-0 right-0 block h-3.5 w-3.5 rounded-full bg-green-500 ring-2 ring-[#1d232a]" />
+					)}
 				</div>
+
 
 				<div className='flex flex-col flex-1'>
 					<div className='flex gap-3 justify-between'>
