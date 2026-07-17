@@ -7,23 +7,32 @@ import messageRouter from './routes/message.routes.js';
 import authRouter from './routes/auth.routes.js'
 import cookieParser from 'cookie-parser';
 import { app, server } from "./socket/socket.js";
+import path from 'path';
+
+const __dirname = path.resolve();
 
 dotenv.config();
 
 //middleware setup
 app.use(express.json());
-app.use(cors());
 app.use(cookieParser());
 
 //Routes setup
-app.use("/api/status", (req,res)=>res.send("Server is running"));
+//app.use("/api/status", (req,res)=>res.send("Server is running"));
 
 app.use("/api/auth", authRouter);
 app.use("/api/messages", messageRouter);
 app.use("/api/users", userRouter);
 
-//connect to MongoDB
-await connectDB();
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+app.get("*", (req,res)=>{
+    res.sendFile(path.join(__dirname, "/client", "dist", "index.html"));
+});
 
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, ()=> console.log(`listening at ${PORT}`));
+
+server.listen(PORT, ()=> {
+    connectDB();
+    console.log(`listening at ${PORT}`)
+});
